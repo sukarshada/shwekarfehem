@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فهم مقروء متقدم - الصف الرابع - شويكار عابد</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Tahoma, sans-serif;
+      background: linear-gradient(135deg, #dff4ff, #ffe7f1, #fff7da);
+      color: #253244;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+    .card {
+      background: rgba(255,255,255,0.97);
+      border-radius: 26px;
+      padding: 22px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+      margin-bottom: 18px;
+    }
+    .header {
+      text-align: center;
+      background: linear-gradient(135deg, #8fd4ff, #ffcde7);
+    }
+    h1, h2, p { margin-top: 0; }
+    .teacher {
+      display: inline-block;
+      background: rgba(255,255,255,0.82);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    .intro {
+      line-height: 1.9;
+      font-size: 1.08rem;
+      text-align: center;
+    }
+    .btn {
+      border: none;
+      border-radius: 16px;
+      padding: 12px 18px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    }
+    .main-btn { background: #80d0ff; color: #123; }
+    .hidden { display: none !important; }
+
+    .progress-text {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 16px;
+      background: #edf2f7;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #7fd3ff, #95e8a7);
+      transition: width 0.35s ease;
+    }
+
+    .paragraph-box {
+      background: #f7fbff;
+      border: 2px solid #dcecf8;
+      border-radius: 20px;
+      padding: 18px;
+      line-height: 2;
+      font-size: 1.12rem;
+      white-space: pre-line;
+      margin-bottom: 18px;
+    }
+
+    .question {
+      font-size: 1.28rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .option-btn {
+      min-height: 86px;
+      background: #f4f9ff;
+      border: 3px solid transparent;
+      border-radius: 18px;
+      padding: 14px;
+      font-size: 1.03rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #243043;
+      line-height: 1.6;
+    }
+    .option-btn:hover { background: #e9f5ff; }
+    .option-btn.correct {
+      background: #daf8df !important;
+      border-color: #49af61;
+      color: #135223;
+    }
+    .option-btn.wrong {
+      background: #ffe2e2 !important;
+      border-color: #dc5a5a;
+      color: #8a1f1f;
+    }
+
+    .feedback {
+      min-height: 34px;
+      text-align: center;
+      margin-top: 18px;
+      font-size: 1.08rem;
+      font-weight: bold;
+    }
+    .good { color: #19753a; }
+    .bad { color: #b13030; }
+
+    .explain {
+      margin-top: 12px;
+      background: #fff9e8;
+      border: 2px solid #f3e2a5;
+      border-radius: 16px;
+      padding: 12px 14px;
+      line-height: 1.8;
+      font-size: 0.98rem;
+    }
+
+    .center { text-align: center; margin-top: 18px; }
+
+    .result {
+      text-align: center;
+    }
+    .score {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 14px 0;
+    }
+    .stars {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .message {
+      font-size: 1.15rem;
+      line-height: 1.8;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .footer {
+      text-align: center;
+      font-weight: bold;
+      color: #566375;
+      padding-bottom: 18px;
+    }
+
+    @media (max-width: 700px) {
+      .options { grid-template-columns: 1fr; }
+      .paragraph-box { font-size: 1.03rem; }
+      .question { font-size: 1.12rem; }
+      h1 { font-size: 1.45rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card header">
+      <h1>📘 فهم مقروء متقدم للصف الرابع</h1>
+      <p>في كل سؤال ستقرأ فقرة قصيرة، ثم تجيب عن سؤال واحد أصعب قليلًا.</p>
+      <div class="teacher">إعداد: المعلمة شويكار عابد</div>
+      <div class="center">
+        <button class="btn main-btn" onclick="startGame()">▶️ ابدأ اللعبة</button>
+      </div>
+    </div>
+
+    <div id="introCard" class="card">
+      <div class="intro">
+        هذه اللعبة ليست فيها أسئلة مباشرة وسهلة فقط.<br>
+        المطلوب أن يفهم الطالب المعنى، ويستنتج، ويلاحظ السبب أو الفكرة المخفية في الفقرة.<br>
+        اقرأ كل فقرة بهدوء، ثم اختر أفضل إجابة.
+      </div>
+    </div>
+
+    <div id="quizCard" class="card hidden">
+      <div class="progress-text" id="progressText"></div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="paragraph-box" id="paragraphText"></div>
+      <div class="question" id="questionText"></div>
+      <div class="options" id="optionsBox"></div>
+      <div class="feedback" id="feedback"></div>
+      <div id="explainBox" class="explain hidden"></div>
+      <div class="center">
+        <button id="nextBtn" class="btn main-btn hidden" onclick="nextQuestion()">السؤال التالي ➜</button>
+      </div>
+    </div>
+
+    <div id="resultCard" class="card result hidden">
+      <h2>🎉 انتهت اللعبة!</h2>
+      <div class="score" id="scoreText"></div>
+      <div class="stars" id="stars"></div>
+      <div class="message" id="resultMessage"></div>
+      <div class="center">
+        <button class="btn main-btn" onclick="restartGame()">🔁 العب من جديد</button>
+      </div>
+    </div>
+
+    <div class="footer">المعلمة شويكار عابد</div>
+  </div>
+
+  <script>
+    const items = [
+      {
+        paragraph: `تأخر عمر صباحًا في ارتداء ملابسه، لذلك خرج من البيت مسرعًا من غير أن يتأكد من حقيبته. وعندما وصل إلى المدرسة، تذكّر أن دفتر العلوم بقي على الطاولة في غرفته. لم يغضب المعلم منه، لكنه طلب منه أن يكتب ملاحظة صغيرة يتذكر بها حاجاته في كل مساء. في اليوم التالي، جهّز عمر حقيبته قبل النوم ووصل مستعدًا.`,
+        question: `ما الفكرة التي أراد المعلم أن يعلّمها لعمر؟`,
+        options: [
+          `أن التأخر أمر طبيعي ولا مشكلة فيه`,
+          `أن نسيان الأغراض يُحلّ بالصراخ`,
+          `أن التنظيم المسبق يساعد على تجنب المشكلات`,
+          `أن دفتر العلوم ليس مهمًا جدًا`
+        ],
+        answer: 2,
+        explain: `الإجابة الأفضل هي: "أن التنظيم المسبق يساعد على تجنب المشكلات"، لأن عمر عندما جهّز حقيبته قبل النوم لم ينسَ أغراضه في اليوم التالي.`
+      },
+      {
+        paragraph: `كانت سلمى تسقي النبتة كل يوم بكميات كبيرة من الماء، لأنها ظنت أن كثرة الماء ستجعلها تنمو أسرع. بعد أيام بدأت الأوراق تميل إلى الاصفرار، فسألت جدتها عن السبب. ابتسمت الجدة وقالت: "حتى الأشياء الجيدة قد تصبح ضارة إذا زادت عن حدها". بعد ذلك صارت سلمى تسقي النبتة بقدر مناسب.`,
+        question: `ماذا نستنتج من كلام الجدة؟`,
+        options: [
+          `أن النباتات لا تحتاج إلى الماء أبدًا`,
+          `أن الاعتدال أفضل من الزيادة`,
+          `أن سلمى لا تعرف كيف تزرع`,
+          `أن الجدة لا تحب النباتات`
+        ],
+        answer: 1,
+        explain: `الفقرة لا تقول إن الماء سيئ، بل تقول إن الزيادة فيه أضرت بالنبتة، لذلك الاستنتاج الصحيح هو أن الاعتدال أفضل من الزيادة.`
+      },
+      {
+        paragraph: `في الاستراحة، كان ليث يحمل شطيرته، ولاحظ أن زميله نادر جلس وحده من غير طعام. لم يسأله أحد عن السبب، لكن ليث جلس قربه وقسم شطيرته إلى نصفين. لم يقل نادر شيئًا في البداية، إلا أن وجهه تغيّر وابتسم بهدوء. وبعد الحصة، ساعد نادر ليث في ترتيب الكتب من غير أن يطلب منه ذلك.`,
+        question: `لماذا ساعد نادر ليث بعد الحصة؟`,
+        options: [
+          `لأنه أراد الخروج متأخرًا`,
+          `لأنه شعر بالامتنان لتصرف ليث`,
+          `لأن المعلم طلب منه ذلك`,
+          `لأنه لم يكن يحب الجلوس وحده`
+        ],
+        answer: 1,
+        explain: `هذا سؤال استنتاج. لم يذكر النص الجواب بشكل مباشر، لكن مساعدة نادر لليث بعد الحصة تدل على أنه قدّر لطفه وشعر بالامتنان له.`
+      },
+      {
+        paragraph: `أعلنت المدرسة عن مسابقة للرسم، فقرر كثير من الطلاب المشاركة. أما ريم، فكانت تحب الرسم، لكنها لم تسجل اسمها في البداية. وعندما سألتها صديقتها عن السبب، قالت إنها تخاف أن تكون لوحتها أقل جمالًا من لوحات الآخرين. في النهاية شجعتها المعلمة على المحاولة، فاشتركت وقدمت لوحة أعجبت الجميع.`,
+        question: `ما المشكلة الحقيقية التي كانت عند ريم؟`,
+        options: [
+          `أنها لا تحب الرسم أصلًا`,
+          `أنها لم تجد أوراقًا للرسم`,
+          `أنها كانت تخاف من الفشل أو المقارنة`,
+          `أن المسابقة كانت مملة`
+        ],
+        answer: 2,
+        explain: `ريم تحب الرسم، إذن المشكلة ليست في المادة نفسها، بل في خوفها من أن تكون لوحتها أقل من لوحات الآخرين، أي الخوف من الفشل أو المقارنة.`
+      },
+      {
+        paragraph: `في أحد الأيام، انقطع التيار الكهربائي عن البيت مدة ساعة. في البداية انزعج مازن، لأنه لم يستطع مشاهدة برنامجه المفضل. ثم جلست العائلة قرب النافذة وتحدثوا وضحكوا، واقترحت الأم أن يروي كل واحد موقفًا طريفًا حدث له في المدرسة أو العمل. وعندما عاد التيار، قال مازن: "مرّت الساعة أسرع مما توقعت".`,
+        question: `ما المغزى الأقرب من هذه الفقرة؟`,
+        options: [
+          `انقطاع الكهرباء دائمًا شيء ممتع`,
+          `الجلوس مع العائلة قد يكون ممتعًا حتى من دون أجهزة`,
+          `الأطفال لا يحبون مشاهدة البرامج`,
+          `النافذة أفضل من التلفاز في كل الأوقات`
+        ],
+        answer: 1,
+        explain: `المغزى ليس أن انقطاع الكهرباء جيد دائمًا، بل أن العائلة وجدت طريقة جميلة لقضاء الوقت معًا، حتى من دون الأجهزة.`
+      },
+      {
+        paragraph: `كتب المعلم على اللوح سؤالًا صعبًا، فرفع كثير من الطلاب أيديهم بسرعة، بينما بقيت هناء تنظر إلى السؤال بصمت. ظن بعض زملائها أنها لا تعرف الإجابة، لكنها بعد دقائق شرحت الحل خطوة خطوة بطريقة واضحة. فقال المعلم: "التفكير الهادئ لا يعني الضعف، بل قد يكون طريقًا إلى فهم أعمق".`,
+        question: `أي وصف هو الأدق لشخصية هناء؟`,
+        options: [
+          `متسرعة وتحب الكلام كثيرًا`,
+          `هادئة وتفكر قبل أن تجيب`,
+          `خائفة من المشاركة دائمًا`,
+          `لا تحب الأسئلة الصعبة`
+        ],
+        answer: 1,
+        explain: `هناء لم تكن ضعيفة أو خائفة، بل كانت تفكر بهدوء قبل الإجابة، ثم قدمت حلاً واضحًا، لذلك الوصف الأدق هو أنها هادئة وتفكر قبل أن تجيب.`
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let locked = false;
+
+    function startGame() {
+      document.getElementById("introCard").classList.add("hidden");
+      document.getElementById("resultCard").classList.add("hidden");
+      document.getElementById("quizCard").classList.remove("hidden");
+      current = 0;
+      score = 0;
+      showItem();
+    }
+
+    function showItem() {
+      locked = false;
+      const item = items[current];
+      document.getElementById("paragraphText").textContent = item.paragraph;
+      document.getElementById("questionText").textContent = item.question;
+      document.getElementById("progressText").textContent = `السؤال ${current + 1} من ${items.length}`;
+      document.getElementById("progressFill").style.width = `${(current / items.length) * 100}%`;
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("feedback").className = "feedback";
+      document.getElementById("nextBtn").classList.add("hidden");
+      document.getElementById("explainBox").classList.add("hidden");
+      document.getElementById("explainBox").textContent = "";
+
+      const box = document.getElementById("optionsBox");
+      box.innerHTML = "";
+
+      item.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(i, btn);
+        box.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(index, btn) {
+      if (locked) return;
+      locked = true;
+
+      const item = items[current];
+      const buttons = document.querySelectorAll(".option-btn");
+      const feedback = document.getElementById("feedback");
+      const explainBox = document.getElementById("explainBox");
+
+      buttons.forEach((b, i) => {
+        b.disabled = true;
+        if (i === item.answer) b.classList.add("correct");
+      });
+
+      if (index === item.answer) {
+        btn.classList.add("correct");
+        score++;
+        feedback.textContent = "أحسنت! إجابة صحيحة 🎉";
+        feedback.classList.add("good");
+        playSuccessSound();
+        confettiBurst();
+      } else {
+        btn.classList.add("wrong");
+        feedback.textContent = "ليست الإجابة الأفضل 🌷";
+        feedback.classList.add("bad");
+        playFailSound();
+      }
+
+      explainBox.textContent = item.explain;
+      explainBox.classList.remove("hidden");
+
+      document.getElementById("progressFill").style.width = `${((current + 1) / items.length) * 100}%`;
+      document.getElementById("nextBtn").classList.remove("hidden");
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < items.length) {
+        showItem();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById("quizCard").classList.add("hidden");
+      document.getElementById("resultCard").classList.remove("hidden");
+      document.getElementById("scoreText").textContent = `نتيجتك: ${score} / ${items.length}`;
+
+      const stars = document.getElementById("stars");
+      const msg = document.getElementById("resultMessage");
+
+      if (score === 6) {
+        stars.textContent = "⭐ ⭐ ⭐";
+        msg.textContent = "ممتاز جدًا! لديك فهم قوي وقدرة جميلة على الاستنتاج.";
+      } else if (score >= 4) {
+        stars.textContent = "⭐ ⭐";
+        msg.textContent = "رائع! فهمك جيد جدًا، وأنت قريب من الإجابات الكاملة.";
+      } else if (score >= 2) {
+        stars.textContent = "⭐";
+        msg.textContent = "جيد. تحتاج فقط إلى تركيز أكثر على المعنى الخفي والاستنتاج.";
+      } else {
+        stars.textContent = "🌟";
+        msg.textContent = "بداية طيبة. أعد القراءة بهدوء، وحاول أن تفكر فيما وراء الكلمات.";
+      }
+    }
+
+    function restartGame() {
+      document.getElementById("resultCard").classList.add("hidden");
+      document.getElementById("introCard").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function playSuccessSound() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const notes = [523.25, 659.25, 783.99];
+      let t = ctx.currentTime;
+      notes.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.001, t + i * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.16, t + i * 0.08 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + i * 0.08 + 0.18);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t + i * 0.08);
+        osc.stop(t + i * 0.08 + 0.2);
+      });
+    }
+
+    function playFailSound() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(280, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.35);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.4);
+    }
+
+    function confettiBurst() {
+      for (let i = 0; i < 16; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = (window.innerWidth / 2) + "px";
+        c.style.top = (window.innerHeight / 2) + "px";
+        c.style.background = ["#7ec8ff", "#ffb3d9", "#ffe08c", "#8ee6a3", "#caa8ff"][Math.floor(Math.random() * 5)];
+        document.body.appendChild(c);
+
+        const x = (Math.random() - 0.5) * 420;
+        const y = (Math.random() - 0.8) * 340;
+        const r = Math.random() * 360;
+
+        c.animate([
+          { transform: "translate(0,0) scale(1) rotate(0deg)", opacity: 1 },
+          { transform: `translate(${x}px, ${y}px) scale(0.3) rotate(${r}deg)`, opacity: 0 }
+        ], {
+          duration: 800,
+          easing: "cubic-bezier(.2,.8,.2,1)"
+        });
+
+        setTimeout(() => c.remove(), 820);
+      }
+    }
+  </script>
+</body>
+</html>
